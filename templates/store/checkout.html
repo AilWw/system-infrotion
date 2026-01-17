@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans 'Checkout' %} - {{ site_settings.business_name }}{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="mb-4">{% trans 'Checkout' %}</h1>
+    
+    <div class="row">
+        <!-- Checkout Form -->
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">{% trans 'Shipping Information' %}</h5>
+                    
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="customer_name" class="form-label">{% trans 'Full Name' %}</label>
+                                <input type="text" class="form-control" id="customer_name" name="customer_name" required value="{{ user.get_full_name }}">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="customer_email" class="form-label">{% trans 'Email' %}</label>
+                                <input type="email" class="form-control" id="customer_email" name="customer_email" required value="{{ user.email }}">
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="customer_phone" class="form-label">{% trans 'Phone Number' %}</label>
+                            <input type="tel" class="form-control" id="customer_phone" name="customer_phone" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="shipping_address" class="form-label">{% trans 'Shipping Address' %}</label>
+                            <textarea class="form-control" id="shipping_address" name="shipping_address" rows="3" required></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-lg w-100">
+                            {% trans 'Continue to Payment' %}
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Order Summary -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{% trans 'Order Summary' %}</h5>
+                    
+                    <div class="mb-3" style="max-height: 300px; overflow-y: auto;">
+                        {% for item in cart_items %}
+                            <div class="d-flex justify-content-between mb-2 pb-2 border-bottom">
+                                <div>
+                                    <small>{{ item.product.name }}</small><br>
+                                    <small class="text-muted">x{{ item.quantity }}</small>
+                                </div>
+                                <small>{{ item.get_total }} SR</small>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    
+                    <hr>
+                    
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>{% trans 'Subtotal' %}:</span>
+                        <strong>{{ subtotal }} SR</strong>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>{% trans 'Tax (15%)' %}:</span>
+                        <strong>{{ tax }} SR</strong>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between mb-3">
+                        <span>{% trans 'Shipping' %}:</span>
+                        <strong>{{ shipping }} SR</strong>
+                    </div>
+                    
+                    <hr>
+                    
+                    <div class="d-flex justify-content-between">
+                        <span class="fs-5">{% trans 'Total' %}:</span>
+                        <strong class="fs-5 product-price">{{ total }} SR</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

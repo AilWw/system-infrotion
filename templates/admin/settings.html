@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans 'Site Settings' %} - {{ site_settings.business_name }}{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="mb-4">{% trans 'Site Settings' %}</h1>
+    
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="row">
+            <!-- Business Information -->
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">{% trans 'Business Information' %}</h5>
+                        
+                        <div class="mb-3">
+                            <label for="business_name" class="form-label">{% trans 'Business Name (English)' %}</label>
+                            <input type="text" class="form-control" id="business_name" name="business_name" value="{{ site_settings.business_name }}" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="business_name_ar" class="form-label">{% trans 'Business Name (Arabic)' %}</label>
+                            <input type="text" class="form-control" id="business_name_ar" name="business_name_ar" value="{{ site_settings.business_name_ar }}" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="contact_email" class="form-label">{% trans 'Contact Email' %}</label>
+                            <input type="email" class="form-control" id="contact_email" name="contact_email" value="{{ site_settings.contact_email }}" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="contact_phone" class="form-label">{% trans 'Contact Phone' %}</label>
+                            <input type="tel" class="form-control" id="contact_phone" name="contact_phone" value="{{ site_settings.contact_phone }}">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="whatsapp_number" class="form-label">{% trans 'WhatsApp Number' %}</label>
+                            <input type="tel" class="form-control" id="whatsapp_number" name="whatsapp_number" value="{{ site_settings.whatsapp_number }}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Colors -->
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">{% trans 'Colors' %}</h5>
+                        
+                        <div class="mb-3">
+                            <label for="primary_color" class="form-label">{% trans 'Primary Color' %}</label>
+                            <input type="color" class="form-control form-control-color" id="primary_color" name="primary_color" value="{{ site_settings.primary_color }}" style="height: 50px;">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="secondary_color" class="form-label">{% trans 'Secondary Color' %}</label>
+                            <input type="color" class="form-control form-control-color" id="secondary_color" name="secondary_color" value="{{ site_settings.secondary_color }}" style="height: 50px;">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="accent_color" class="form-label">{% trans 'Accent Color' %}</label>
+                            <input type="color" class="form-control form-control-color" id="accent_color" name="accent_color" value="{{ site_settings.accent_color }}" style="height: 50px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <!-- Address -->
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">{% trans 'Address' %}</h5>
+                        
+                        <div class="mb-3">
+                            <label for="address" class="form-label">{% trans 'Address (English)' %}</label>
+                            <textarea class="form-control" id="address" name="address" rows="3">{{ site_settings.address }}</textarea>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="address_ar" class="form-label">{% trans 'Address (Arabic)' %}</label>
+                            <textarea class="form-control" id="address_ar" name="address_ar" rows="3">{{ site_settings.address_ar }}</textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- About Us -->
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">{% trans 'About Us' %}</h5>
+                        
+                        <div class="mb-3">
+                            <label for="about_us" class="form-label">{% trans 'About Us (English)' %}</label>
+                            <textarea class="form-control" id="about_us" name="about_us" rows="3">{{ site_settings.about_us }}</textarea>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="about_us_ar" class="form-label">{% trans 'About Us (Arabic)' %}</label>
+                            <textarea class="form-control" id="about_us_ar" name="about_us_ar" rows="3">{{ site_settings.about_us_ar }}</textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <!-- Logo -->
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">{% trans 'Logo' %}</h5>
+                        
+                        {% if site_settings.logo %}
+                            <div class="mb-3">
+                                <img src="{{ site_settings.logo.url }}" alt="Logo" style="max-width: 200px; max-height: 100px;">
+                            </div>
+                        {% endif %}
+                        
+                        <div class="mb-3">
+                            <label for="logo" class="form-label">{% trans 'Upload Logo' %}</label>
+                            <input type="file" class="form-control" id="logo" name="logo" accept="image/*">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Background Image -->
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">{% trans 'Background Image' %}</h5>
+                        
+                        {% if site_settings.background_image %}
+                            <div class="mb-3">
+                                <img src="{{ site_settings.background_image.url }}" alt="Background" style="max-width: 100%; max-height: 150px;">
+                            </div>
+                        {% endif %}
+                        
+                        <div class="mb-3">
+                            <label for="background_image" class="form-label">{% trans 'Upload Background' %}</label>
+                            <input type="file" class="form-control" id="background_image" name="background_image" accept="image/*">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-12">
+                <button type="submit" class="btn btn-primary btn-lg">
+                    <i class="fas fa-save"></i> {% trans 'Save Settings' %}
+                </button>
+                <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary btn-lg">
+                    {% trans 'Back' %}
+                </a>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

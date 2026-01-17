@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans 'Admin Dashboard' %} - {{ site_settings.business_name }}{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h1>{% trans 'Admin Dashboard' %}</h1>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-3 mb-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h6 class="card-title">{% trans 'Total Products' %}</h6>
+                    <h2 class="product-price">0</h2>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3 mb-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h6 class="card-title">{% trans 'Total Orders' %}</h6>
+                    <h2 class="product-price">0</h2>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3 mb-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h6 class="card-title">{% trans 'Total Revenue' %}</h6>
+                    <h2 class="product-price">0 SR</h2>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3 mb-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h6 class="card-title">{% trans 'Total Customers' %}</h6>
+                    <h2 class="product-price">0</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{% trans 'Management' %}</h5>
+                    <div class="list-group">
+                        <a href="{% url 'admin_settings' %}" class="list-group-item list-group-item-action">
+                            <i class="fas fa-cog"></i> {% trans 'Site Settings' %}
+                        </a>
+                        <a href="{% url 'admin_products' %}" class="list-group-item list-group-item-action">
+                            <i class="fas fa-box"></i> {% trans 'Products' %}
+                        </a>
+                        <a href="{% url 'admin_orders' %}" class="list-group-item list-group-item-action">
+                            <i class="fas fa-receipt"></i> {% trans 'Orders' %}
+                        </a>
+                        <a href="{% url 'admin:index' %}" class="list-group-item list-group-item-action">
+                            <i class="fas fa-users"></i> {% trans 'Users' %}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans 'Products' %} - {{ site_settings.business_name }}{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="mb-4">{% trans 'Products' %}</h1>
+    
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-3 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{% trans 'Filter' %}</h5>
+                    
+                    <!-- Search -->
+                    <form method="get" class="mb-4">
+                        <div class="input-group">
+                            <input type="text" name="search" class="form-control" placeholder="{% trans 'Search...' %}" value="{{ search_query }}">
+                            <button class="btn btn-primary" type="submit">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <!-- Categories -->
+                    <h6 class="mb-3">{% trans 'Categories' %}</h6>
+                    <div class="list-group">
+                        <a href="{% url 'products' %}" class="list-group-item list-group-item-action">
+                            {% trans 'All Categories' %}
+                        </a>
+                        {% for category in categories %}
+                            <a href="{% url 'products' %}?category={{ category.id }}" class="list-group-item list-group-item-action">
+                                {{ category.name }}
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Products Grid -->
+        <div class="col-md-9">
+            {% if products %}
+                <div class="row">
+                    {% for product in products %}
+                        <div class="col-md-6 col-lg-4 mb-4">
+                            <div class="card product-card h-100">
+                                <div class="position-relative">
+                                    <img src="{{ product.image.url }}" class="card-img-top product-image" alt="{{ product.name }}">
+                                    {% if product.discount_percentage %}
+                                        <span class="discount-badge">-{{ product.discount_percentage }}%</span>
+                                    {% endif %}
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ product.name }}</h5>
+                                    <p class="card-text text-muted small">{{ product.description|truncatewords:15 }}</p>
+                                    <div class="rating mb-2">
+                                        {% for i in "12345" %}
+                                            {% if i|add:"0" <= product.rating %}
+                                                <i class="fas fa-star"></i>
+                                            {% else %}
+                                                <i class="far fa-star"></i>
+                                            {% endif %}
+                                        {% endfor %}
+                                        <small>({{ product.review_count }})</small>
+                                    </div>
+                                    <div class="mb-3">
+                                        {% if product.discount_price %}
+                                            <span class="product-price">{{ product.discount_price }} SR</span>
+                                            <span class="text-muted text-decoration-line-through">{{ product.price }} SR</span>
+                                        {% else %}
+                                            <span class="product-price">{{ product.price }} SR</span>
+                                        {% endif %}
+                                    </div>
+                                    <a href="{% url 'product_detail' product.slug %}" class="btn btn-primary btn-sm w-100">
+                                        {% trans 'View Details' %}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="alert alert-info text-center">
+                    {% trans 'No products found' %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
